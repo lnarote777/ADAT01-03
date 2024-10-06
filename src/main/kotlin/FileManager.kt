@@ -2,9 +2,7 @@ package org.example
 
 import org.w3c.dom.Element
 import org.w3c.dom.Node
-import java.io.BufferedReader
 import java.io.File
-import java.io.FileReader
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.xml.parsers.DocumentBuilderFactory
@@ -13,7 +11,18 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 
+/**
+ * Clase responsable de gestionar las operaciones de lectura y escritura de datos de empleados
+ * en diferentes formatos de archivo, así como la modificación de información de los empleados.
+ */
 class FileManager() {
+
+    /**
+     * Lee un archivo CSV y convierte cada línea válida en una instancia de [Empleado].
+     *
+     * @param fichero La ruta del archivo CSV a leer.
+     * @return Una lista de objetos [Empleado] obtenidos del archivo.
+     */
     fun leerFile(fichero: Path): List<Empleado>{
         val empleados = mutableListOf<Empleado>()
         val br = Files.newBufferedReader(fichero)
@@ -38,6 +47,11 @@ class FileManager() {
         return empleados
     }
 
+    /**
+     * Escribe una lista de empleados en un archivo XML.
+     *
+     * @param empleados La lista de objetos [Empleado] que se van a escribir en el archivo XML.
+     */
     fun escribirXML(empleados: List<Empleado>){
         val db = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val imp = db.domImplementation
@@ -90,6 +104,12 @@ class FileManager() {
 
     }
 
+    /**
+     * Modifica el salario de un empleado específico identificado por su ID.
+     *
+     * @param id El ID del empleado cuyo salario se desea modificar.
+     * @param salario El nuevo salario que se asignará al empleado.
+     */
     fun modificarSalario(id: Int, salario: Double){
         val empleados = lecturaXML()
         val empleado = empleados.find { it.id == id }
@@ -102,6 +122,11 @@ class FileManager() {
         }
     }
 
+    /**
+     * Lee el archivo XML de empleados y devuelve una lista de objetos [Empleado].
+     *
+     * @return Una lista de objetos [Empleado] obtenidos del archivo XML.
+     */
     fun lecturaXML(): List<Empleado> {
         val empleados = mutableListOf<Empleado>()
         val fichero = File("${System.getProperty("user.dir")}/src/main/resources/datosEmpleados/empleadosXML.xml")
