@@ -37,6 +37,7 @@ class FileManager() {
 
         return empleados
     }
+
     fun escribirXML(empleados: List<Empleado>){
         val db = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val imp = db.domImplementation
@@ -51,10 +52,14 @@ class FileManager() {
             val depart = empleado.depart
             val salario = empleado.salario.toString()
 
-            if (id < 10){
-                elementoEmpleado.setAttribute("id", "10$id")
-            }else{
-                elementoEmpleado.setAttribute("id", "1$id")
+            if (id.toString().length < 3){
+                if (id < 10){
+                    elementoEmpleado.setAttribute("id", "10$id")
+                }else{
+                    elementoEmpleado.setAttribute("id", "1$id")
+                }
+            }else {
+                elementoEmpleado.setAttribute("id", id.toString())
             }
 
             val elementoApellido = document.createElement("apellido")
@@ -84,9 +89,19 @@ class FileManager() {
         transformer.transform(source, result)
 
     }
-//    fun modificarSalario(id: Int, salario: Double){
-//        val empleados = lecturaXML()
-//    }
+
+    fun modificarSalario(id: Int, salario: Double){
+        val empleados = lecturaXML()
+        val empleado = empleados.find { it.id == id }
+
+        if (empleado != null) {
+            empleado.salario = salario
+            escribirXML(empleados)
+        }else {
+            Consola.mostrarMensaje("No se encontró ningún empleado")
+        }
+    }
+
     fun lecturaXML(): List<Empleado> {
         val empleados = mutableListOf<Empleado>()
         val fichero = File("${System.getProperty("user.dir")}/src/main/resources/datosEmpleados/empleadosXML.xml")
