@@ -5,7 +5,6 @@ import java.nio.file.Path
 
 fun main() {
     val fileEmpleados = Path.of("src/main/resources/datosEmpleados/empleados.csv")
-    val empleadosXML = File("${System.getProperty("user.dir")}src/main/resources/datosEmpleados/empleadosXML.xml")
 
     val fileManager = FileManager()
 
@@ -13,6 +12,6 @@ fun main() {
 
     fileManager.escribirXML(empleados)
 
-    val listaEmpleadosXML = fileManager.lecturaXML(empleadosXML)
+    val listaEmpleadosXML = fileManager.lecturaXML()
     listaEmpleadosXML.forEach{println(it)}
 }

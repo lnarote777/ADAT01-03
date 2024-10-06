@@ -84,44 +84,44 @@ class FileManager() {
         transformer.transform(source, result)
 
     }
-//    fun modificarSalario(salario: Double){
-//
+//    fun modificarSalario(id: Int, salario: Double){
+//        val empleados = lecturaXML()
 //    }
-//    fun lecturaXML(fichero: File): List<Empleado> {
-//        val empleados = mutableListOf<Empleado>()
-//
-//        val dbf = DocumentBuilderFactory.newInstance()
-//        val db = dbf.newDocumentBuilder()
-//        val document = db.parse(fichero)
-//
-//        val root = document.documentElement
-//        root.normalize()
-//
-//        val listaNodos = root.getElementsByTagName("empleado")
-//
-//        for (i in 0 until listaNodos.length){
-//
-//            val nodo = listaNodos.item(i)
-//
-//            if (nodo.nodeType == Node.ELEMENT_NODE){
-//
-//                val nodoElemento = nodo as Element
-//
-//                val elementoId = nodoElemento.getAttribute("id")
-//                val elementoNombre = nodoElemento.getElementsByTagName("apellido")
-//                val elementoDep = nodoElemento.getElementsByTagName("dep")
-//                val elementoSalario = nodoElemento.getElementsByTagName("salario")
-//
-//                val textContentId = elementoId.toInt()
-//                val textContentNombre = elementoNombre.item(0).textContent
-//                val textContentDep = elementoDep.item(0).textContent
-//                val textContentSalario = elementoSalario.item(0).textContent.toDouble()
-//
-//                val empleado = Empleado(textContentId, textContentNombre, textContentDep, textContentSalario)
-//                empleados.add(empleado)
-//            }
-//        }
-//
-//        return empleados
-//    }
+    fun lecturaXML(): List<Empleado> {
+        val empleados = mutableListOf<Empleado>()
+        val fichero = File("${System.getProperty("user.dir")}/src/main/resources/datosEmpleados/empleadosXML.xml")
+        val dbf = DocumentBuilderFactory.newInstance()
+        val db = dbf.newDocumentBuilder()
+        val document = db.parse(fichero)
+
+        val root = document.documentElement
+        root.normalize()
+
+        val listaNodos = root.getElementsByTagName("empleado")
+
+        for (i in 0 until listaNodos.length){
+
+            val nodo = listaNodos.item(i)
+
+            if (nodo.nodeType == Node.ELEMENT_NODE){
+
+                val nodoElemento = nodo as Element
+
+                val elementoId = nodoElemento.getAttribute("id")
+                val elementoNombre = nodoElemento.getElementsByTagName("apellido")
+                val elementoDep = nodoElemento.getElementsByTagName("depart")
+                val elementoSalario = nodoElemento.getElementsByTagName("salario")
+
+                val textContentId = elementoId.toInt()
+                val textContentApellido = elementoNombre.item(0).textContent
+                val textContentDep = elementoDep.item(0).textContent
+                val textContentSalario = elementoSalario.item(0).textContent.toDouble()
+
+                val empleado = Empleado(textContentId, textContentApellido, textContentDep, textContentSalario)
+                empleados.add(empleado)
+            }
+        }
+
+        return empleados
+    }
 }
